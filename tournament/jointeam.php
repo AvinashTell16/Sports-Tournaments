@@ -1,0 +1,42 @@
+<?php
+session_start();
+$conn = new mysqli("localhost:3306", 'root','','tournament');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+  if (!isset($_SESSION["user"])) {
+    header("Location: login.php", TRUE, 301);
+    exit();
+  }
+  $teamname=$_POST['team'];
+  $teamid=$_POST['teamid'];
+  $p=$_SESSION['user'];
+  $sql5="UPDATE participants SET teamid = '".$teamid."' WHERE pid = '".$p."'";
+  $data5=mysqli_query($conn,$sql5);
+  if($data5){
+    echo "<script>alert('Teamid is added to participant succesfully')</script>";
+  }
+  $sql6="INSERT INTO teamparti (teamid,pid,iscaptain) VALUES('".$teamid."','".$p."',0)";
+  $data6=mysqli_query($conn,$sql6);
+  if($data6){
+    echo "<script>alert('Participant is added to the team succesfully')</script>";
+  }
+  $sql7="SELECT * FROM team WHERE teamid='".$teamid."'";
+  $data7=mysqli_query($conn,$sql7);
+  if($data7){
+    $row7=$data7->fetch_assoc();
+    $count=$row7['count'];
+    $count=$count+1;
+    $sql8="UPDATE team SET count = '".$count."' WHERE teamid = '".$teamid."'";
+    $data8=mysqli_query($conn,$sql8);
+    if($data8){
+        echo "<script>alert('Team Count is updated successfully)</script>";
+        ?>
+      <script type="text/javascript">
+      window.location = 'upcomingtour.php';
+      </script>      
+        <?php
+    }
+  }
+?>
+

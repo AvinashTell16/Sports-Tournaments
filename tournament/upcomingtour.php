@@ -91,7 +91,16 @@ if($n>0){
     $sql3="SELECT tid from tourparti WHERE tid='".$row['tid']."' AND pid='".$k."'";
     $data3 = mysqli_query($conn,$sql3);
     $row3=$data3->fetch_assoc();
+    $sql4="SELECT teamid from participants WHERE pid='".$k."'";
+    $data4 = mysqli_query($conn,$sql4);
+    $row4=$data4->fetch_assoc();
+    $sql5="SELECT tid FROM tourteams WHERE tid='".$row['tid']."' AND teamid='".$row4['teamid']."'";
+    $data5 = mysqli_query($conn,$sql5);
+
     if(mysqli_num_rows($data3)==1){
+      continue;
+    }
+    if(mysqli_num_rows($data5)==1){
       continue;
     }
     else{
@@ -140,6 +149,7 @@ if($n>0){
                         </div>
                         <div class="modal-body">
                         <?php 
+                        //Type=single
                         if($row['type']=='single'){
                           //echo "Success";
                           //echo $k;
@@ -153,6 +163,35 @@ if($n>0){
                         </form>
                           <?php
                                                       
+                        }
+
+
+
+                        else{
+                          //echo $row['type'];
+                          //type=team
+                          $sql2="SELECT teamid FROM participants WHERE pid='".$k."'";
+                          $data2=mysqli_query($conn,$sql2);
+                          $row2=$data2->fetch_assoc();
+                          $k2=$row2['teamid'];
+                          ?>
+                         
+                          <form method="POST" action="teams.php">
+                            <!--
+                          Create a new team or select an existing team
+                          <select name="type" required class="smalltext">
+                          <option value="create">Create Team</option>
+                          <option value="join">Join Existing Team</option>
+                          </select><br>
+                        -->
+                          <h4>This tournament should be registered as a team</h4>
+                          <input type=hidden name="tid" value= "<?php echo $row['tid'];?>" readonly>
+                          <input type=hidden name="pid" value= "<?php echo $k;?>" readonly>
+                          <input type=hidden name="teamid" value= "<?php echo $k2;?>" readonly>
+                        
+                          <input type='submit' name='register' value="Register">
+                          </form>
+                          <?php
                         }
                         
                         ?>

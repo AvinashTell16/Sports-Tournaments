@@ -64,7 +64,7 @@ if(isset($_POST['submit'])){
   $sql="INSERT INTO participants (pname,wins,age,email,password,address,bloodgroup) values('$pname','$wins','$age','$email','$pass','$address','$bgrp')";
   $data = mysqli_query($conn,$sql);
   if($data){
-      echo "<script>alert('record inserted succesfully')</script>";
+      echo "<script>alert('USer registered succesfully')</script>";
     ?>
 	<script type="text/javascript">
 	window.location = 'login.php';

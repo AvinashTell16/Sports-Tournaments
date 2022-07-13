@@ -5,7 +5,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
   if (!isset($_SESSION["user"])) {
-    header("Location: admin.php", TRUE, 301);
+    header("Location: login.php", TRUE, 301);
     exit();
   }
 ?>
@@ -78,12 +78,13 @@ float: left;
 </nav>
 
 <?php
-$sql="SELECT * FROM tourevents";
 
-$data = mysqli_query($conn,$sql);
-$n=mysqli_num_rows($data);
+$sql1="SELECT * FROM tourparti WHERE pid='".$_SESSION['user']."'";
+
+$data1 = mysqli_query($conn,$sql1);
+$n=mysqli_num_rows($data1);
 if($n>0){
-  while($row=$data->fetch_assoc()){
+  while($row1=$data1->fetch_assoc()){
     ?>
     <div class="card1">
       <div class="container1">
@@ -91,7 +92,13 @@ if($n>0){
   <div class="card" style="width:400px;">
 
     <div class="card-body">
-      <h4 class="card-title">Name of the Tournament : <?php echo $row['tname'];?></h4>
+    
+        <?php
+        $sql="SELECT * FROM tourevents WHERE tid='".$row1['tid']."'";
+        $data = mysqli_query($conn,$sql);
+        $row=$data->fetch_assoc()
+        ?>
+    <h4 class="card-title">Name of the Tournament : <?php echo $row['tname'];?></h4>
       <p class="card-text">Type : <?php echo $row['type'];?></p>
       <p class="card-text">Start date : <?php echo $row['start_date'];?></p>
       <p class="card-text">End date : <?php echo $row['end_date'];?></p>
@@ -100,19 +107,17 @@ if($n>0){
       <p class="card-text">Participants per team : <?php echo $row['pperteam'];?></p>
       <p class="card-text">Team IDs : <?php echo $row['teamids'];?></p>
       <p class="card-text">Time : <?php echo $row['time'];?></p>
-
-
       <!--
         <a href="#" class="btn btn-primary">All Details</a>
       -->
     </div>
   </div>
-  
     </div>
+
     <!--Popup form-->
     <div class="container">
             <div class="container-box">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<?php echo $row['tid'];?>">Edit Details</button>
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<?php echo $row['tid'];?>">Deregister</button>
             </div>
             <!-- Modal -->
             <div id="myModal<?php echo $row['tid'];?>" class="modal fade" role="dialog">
@@ -122,57 +127,23 @@ if($n>0){
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title">
-                                Edit Details
+                                Deregister
                             </h4>
                         </div>
                         <div class="modal-body">
-                        <form action="edittour.php" method="post">
-                                Tournament ID:
-                                <input type="text" value="<?php echo $row['tid'];?>" name="tid" readonly><br><br>
-                                Tournament name:
-                                <input type="text" name="tname" required class="smalltext" value='<?php echo $row['tname'];?>'>
-                                Type:
-                                <select name="type" required class="smalltext">
-                                <option selected><?php echo $row['type'];?></option>   
-                                
-                                </select><br><br>
-                                Minteams                                                                      
-                                <input type="text" name="minteams" required class="bigtext" value= '<?php echo $row['minteams'];?>'><br><br>
-                                Participants per team                                                                      
-                                <input type="text" name="pperteam" required class="bigtext" value='<?php echo $row['pperteam'];?>'><br><br>
-                                Status
-                                <select name="status" required class="smalltext">
-                                <option selected><?php echo $row['status'];?></option> 
-                                <?php
-                                if($row['status']==''){
+                            <?php
+                            if($row['type']=='single'){
                                 ?>
-                                <option>Active</option>  
-                                <option>InActive</option>  
+                                <form method="POST" action="deregistersingle.php"> 
+                                    <h3>Are you sure want to deregister?</h3>
+                                    <h3>This tournament is of single type. Deregistering will remove your chance to participate</h3>
+                                    <input type="hidden" name="tid" value="<?php echo $row['tid']?>">
+                                    <input type="hidden" name="pid" value="<?php echo $_SESSION['user']?>">
+                                    <input type="submit" name="submit" value="Withdraw">
+                                </form>
                                 <?php
-                                } 
-                                else if($row['status']=='Active'){
-                                ?>
-                                <option>InActive</option>  
-                                <?php
-                                } 
-                                else{
-                                ?>
-                                <option>Active</option>
-                                <?php
-                                }
-                                ?>
-                                </select>
-                                Start Date:  
-                                <input type="date" name="startdate" required class="smalltext" value='<?php echo $row['start_date'];?>'>
-                                End Date:  
-                                <input type="date" name="enddate" required class="smalltext" value='<?php echo $row['end_date'];?>'><br><br>
-                                Event Time:  
-                                <input type="time" name="time" required class="smalltext" value='<?php echo $row['time'];?>'><br><br>
-                                Team IDs
-                                <input type="text" value="<?php echo $row['teamids'];?>" name="teamids"><br><br>
-
-                                <input type="submit" value="Submit">
-                              </form>
+                            }
+                            ?>
                             <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Sent your message successfully!</h3> </div>
                             <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
                         </div>
@@ -186,7 +157,90 @@ if($n>0){
     <?php
   }
 }
+//Display Team Tournaments to which the participant is registered to
+$k=$_SESSION['user'];
+$sql2="SELECT teamid FROM participants WHERE pid='".$k."'";
+$data2=mysqli_query($conn,$sql2);
+$row2=$data2->fetch_assoc();
+$k2=$row2['teamid'];
+$sql1="SELECT * FROM tourteams WHERE teamid='".$k2."'";
+$data1 = mysqli_query($conn,$sql1);
+$n=mysqli_num_rows($data1);
+if($n>0){
+  while($row1=$data1->fetch_assoc()){
+    ?>
+    <div class="card1">
+      <div class="container1">
+    <div class="container">
+  <div class="card" style="width:400px;">
 
+    <div class="card-body">
+    
+        <?php
+        $sql="SELECT * FROM tourevents WHERE tid='".$row1['tid']."'";
+        $data = mysqli_query($conn,$sql);
+        $row=$data->fetch_assoc()
+        ?>
+    <h4 class="card-title">Name of the Tournament : <?php echo $row['tname'];?></h4>
+      <p class="card-text">Type : <?php echo $row['type'];?></p>
+      <p class="card-text">Start date : <?php echo $row['start_date'];?></p>
+      <p class="card-text">End date : <?php echo $row['end_date'];?></p>
+      <p class="card-text">Status : <?php echo $row['status'];?></p>
+      <p class="card-text">MinTeams : <?php echo $row['minteams'];?></p>
+      <p class="card-text">Participants per team : <?php echo $row['pperteam'];?></p>
+      <p class="card-text">Team IDs : <?php echo $row['teamids'];?></p>
+      <p class="card-text">Time : <?php echo $row['time'];?></p>
+      <!--
+        <a href="#" class="btn btn-primary">All Details</a>
+      -->
+    </div>
+  </div>
+    </div>
+
+    <!--Popup form-->
+    <div class="container">
+            <div class="container-box">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<?php echo $row['tid'];?>">Deregister</button>
+            </div>
+            <!-- Modal -->
+            <div id="myModal<?php echo $row['tid'];?>" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">
+                                Deregister
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <?php
+                            if($row['type']=='single'){
+                                ?>
+                                <form method="POST" action="deregistersingle.php"> 
+                                    <h3>Are you sure want to deregister?</h3>
+                                    <h3>This tournament is of single type. Deregistering will remove your chance to participate</h3>
+                                    <input type="hidden" name="tid" value="<?php echo $row['tid']?>">
+                                    <input type="hidden" name="pid" value="<?php echo $_SESSION['user']?>">
+                                    <input type="submit" name="submit" value="Withdraw">
+                                </form>
+                                <?php
+                            }
+                            ?>
+                            <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Sent your message successfully!</h3> </div>
+                            <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                              </div>
+                              </div>
+<!--Popup form-->
+<!-- Display of the tournaments registered as a team-->
+    <?php
+  }
+}
 ?>
 
 
