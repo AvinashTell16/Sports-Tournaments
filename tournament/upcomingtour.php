@@ -14,9 +14,9 @@ if ($conn->connect_error) {
 <html lang="en">
 <head>
   <title>Upcoming Tournaments</title>
-  ​<img src="tour.png" width="100px" height="80px">
+  
 <h3 class="liketext">Push Yourselves to compete with others</h3>
-<input type="button" value="Logout" onclick="window.location='logout.php';" >
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -62,19 +62,22 @@ float: left;
 <!--card style css-->
 
 
-
-<nav class="navbar navbar-default">
+<div style="padding-top:20px;">
+<nav class="navbar navbar-default" >
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="partihome.php">Participant Access</a>
+    <img src="tour.png" width="150px" height="50px">
     </div>
     <ul class="nav navbar-nav">
+      <li style="padding-left:20px;"><a href="yourtour.php">Home Page</a></li>
       <li class="active"><a href="upcomingtour.php">Upcoming Tournaments</a></li>
       <li><a href="profile.php">Profile</a></li>
-      <li><a href="yourtour.php">Modify</a></li>
+     
     </ul>
+    <input type="button" value="Logout" style="float:right;width: 100px;margin-top:10px;margin-bottom:10px;background-color:red;border-radius:5px;border:None;color:white;" onclick="window.location='logout3.php';"></h1>
   </div>
 </nav>
+</div>
 </head>
 
 
@@ -104,10 +107,12 @@ if($n>0){
       continue;
     }
     else{
+      //Display only active tournaments
+      if($row['status']=="Active"){
     ?>
     <div class="card1">
       <div class="container1">
-    <div class="container">
+    <div class="container" style="padding-left:20px;">
   <div class="card" style="width:400px;">
 
     <div class="card-body">
@@ -118,7 +123,7 @@ if($n>0){
       <p class="card-text">Status : <?php echo $row['status'];?></p>
       <p class="card-text">MinTeams : <?php echo $row['minteams'];?></p>
       <p class="card-text">Participants per team : <?php echo $row['pperteam'];?></p>
-      <p class="card-text">Team IDs : <?php echo $row['teamids'];?></p>
+      <!--<p class="card-text">Team IDs : <?php //echo $row['teamids'];?></p>-->
       <p class="card-text">Time : <?php echo $row['time'];?></p>
 
 
@@ -220,6 +225,8 @@ if($n>0){
                               </div>
 <!--Popup form-->
     <?php
+      }
+      //End of only display active tournaments
     }
   }
 }

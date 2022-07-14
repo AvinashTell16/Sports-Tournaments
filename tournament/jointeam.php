@@ -9,7 +9,11 @@ if ($conn->connect_error) {
     exit();
   }
   $teamname=$_POST['team'];
-  $teamid=$_POST['teamid'];
+  $sql4="SELECT teamid FROM team WHERE teamname='".$_POST['team']."'";
+  $data4=mysqli_query($conn,$sql4);
+  $row4=$data4->fetch_assoc();
+  //$teamid=$_POST['teamid'];
+  $teamid=$row4['teamid'];
   $p=$_SESSION['user'];
   $sql5="UPDATE participants SET teamid = '".$teamid."' WHERE pid = '".$p."'";
   $data5=mysqli_query($conn,$sql5);

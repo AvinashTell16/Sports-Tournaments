@@ -43,7 +43,7 @@ if ($conn->connect_error) {
     alert("Invalid age");
     return false;
   }
-  if(bloodgroup!="O+" && bloodgroup!="O-" && bloodgroup!="A+" && bloodgroup!="A-" && bloodgroup!="B+" && bloodgroup!="B-" && bloodgroup!="AB++" && bloodgroup!="AB-"){
+  if(bloodgroup!="O+" && bloodgroup!="O-" && bloodgroup!="A+" && bloodgroup!="A-" && bloodgroup!="B+" && bloodgroup!="B-" && bloodgroup!="AB+" && bloodgroup!="AB-"){
     alert("Invalid blood group");
     return false;
   }
@@ -61,10 +61,28 @@ if(isset($_POST['submit'])){
   $email=$_POST['email'];
   $address=$_POST['address'];
   $bgrp=$_POST['bloodgroup'];
+  $f1=0;
+  $f2=0;
+  //password hashing
+ // $pass1=password_hash($pass,PASSWORD_DEFAULT);
+ $sql1="SELECT email FROM participants WHERE email='".$email."'";
+ $data1=mysqli_query($conn,$sql1);
+ if(mysqli_num_rows($data1)==1){
+  $f1=1;
+  echo "<script>alert('User with same mail already exists')</script>";
+ }
+ $sql2="SELECT pname FROM participants WHERE pname='".$pname."'";
+ $data2=mysqli_query($conn,$sql2);
+ if(mysqli_num_rows($data2)==1){
+  $f2=1;
+  echo "<script>alert('User with same name already exists')</script>";
+ }
+ if($f1==0 && $f2==0){
+ 
   $sql="INSERT INTO participants (pname,wins,age,email,password,address,bloodgroup) values('$pname','$wins','$age','$email','$pass','$address','$bgrp')";
   $data = mysqli_query($conn,$sql);
   if($data){
-      echo "<script>alert('USer registered succesfully')</script>";
+      echo "<script>alert('User registered succesfully')</script>";
     ?>
 	<script type="text/javascript">
 	window.location = 'login.php';
@@ -74,6 +92,7 @@ if(isset($_POST['submit'])){
 else{
     
     echo "<script>alert('record insertion failed')</script>";
+}
 }
 }
 ?>

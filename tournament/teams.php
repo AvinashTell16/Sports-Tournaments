@@ -80,7 +80,7 @@ if ($conn->connect_error) {
                         $row3=$data3->fetch_assoc();
                         ?>
                         <option value="<?php echo $row3['teamname'];?>"><?php echo $row3['teamname'];?></option>
-                        <input type=hidden name="teamid" value= "<?php echo $row2['teamid'];?>" readonly>
+                        <!--<input type=hidden name="teamid" value= "<?php //echo $row2['teamid'];?>" readonly>-->
                         <?php
                     }
                     ?>
@@ -123,7 +123,7 @@ if ($conn->connect_error) {
         $tid=$_POST['tid'];
         $pid=$_POST['pid'];
         $teamid=$_POST['teamid'];
-        $sql4="SELECT captainpid FROM tourteams WHERE teamid='".$teamid."'";
+        $sql4="SELECT captain FROM team WHERE teamid='".$teamid."'";
         $data4=mysqli_query($conn,$sql4);
         $row4=$data4->fetch_assoc();
         
@@ -133,9 +133,9 @@ if ($conn->connect_error) {
         <input type=hidden name="tid" value= "<?php echo $tid;?>" readonly><br>
         <input type=hidden name="pid" value= "<?php echo $pid;?>" readonly><br>
         <input type=hidden name="teamid" value= "<?php echo $teamid;?>" readonly><br>
-        <input type=hidden name="captainpid" value= "<?php echo $row4['captainpid'];?>" readonly><br>
+        <input type=hidden name="captainpid" value= "<?php echo $row4['captain'];?>" readonly><br>
         <?php
-        if($pid!=$row4['captainpid']){
+        if($pid!=$row4['captain']){
             echo "<script>alert('You are not the captain of the team!! Cannot Register for the tournament')</script>";
             ?>
             
@@ -153,7 +153,7 @@ if ($conn->connect_error) {
             $data5=mysqli_query($conn,$sql5);
             $n=mysqli_num_rows($data5);
             ?>
-            <table>
+            <table border="1px">
                         <tr>
                             <th>Name of the candidate</th>
                         </tr>
@@ -175,6 +175,7 @@ if ($conn->connect_error) {
         }
         ?>
         </table>
+        <br><br>
         <input type="submit" value="Register" name="register">
         </form>
     </div>

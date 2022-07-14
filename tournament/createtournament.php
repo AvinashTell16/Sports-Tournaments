@@ -4,7 +4,7 @@ $conn = new mysqli("localhost:3306", 'root','','tournament');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-if (!isset($_SESSION["user"])) {
+if (!isset($_SESSION["userid"])) {
     header("Location: admin.php", TRUE, 301);
     exit();
   }
@@ -27,33 +27,35 @@ ga('send', 'pageview');
 </script>
 
 </head>
-<body>
+<body >
 
 <header>
-<img src="tour.png" width="100px" height="80px">
 
- <input type="button" value="Logout" style="float:right;width: 200px;" onclick="window.location='logout1.php';"></h1>
+
 </header>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Admin Access</a>
+    <img src="tour.png" width="150px" height="50px">
+      
+ 
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="adminhome.php">Admin Home Page</a></li>
+    <li><a href="info.php">All Tournaments</a></li>
 	  <li  class="active"><a href="createtournament.php">Create Tournament</a></li>
-      <li><a href="info.php">Info</a></li>
+      
       <li><a href="reporttour.php">Reports</a></li>
 	  <li><a href="resulttour.php">Results</a></li>
     </ul>
+    <input type="button" value="Logout" style="float:right;width: 100px;margin-top:10px;margin-bottom:10px;background-color:red;border-radius:5px;border:None;color:white;" onclick="window.location='logout2.php';"></h1>
   </div>
 </nav>
-               
+<div style="padding:20px;">     
 <div class="col-12">
 <div style="padding-left:2%;width:100%;border-style:solid; border-radius:10px;border-color:#0000ff">
   <center><h1>Add New Tournament</h1></center>                          
 
-<form action="addtour.php" method="post">
+<form action="addtour.php" method="post" style="padding:20px;">
 Tournament name:
 <input type="text" name="tname" required class="smalltext">
 Type: <select name="type" required class="smalltext">
@@ -77,6 +79,8 @@ Event Time:
 </div>
 
 </div>
+</div>
+
 
 
 </div>

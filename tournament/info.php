@@ -4,7 +4,7 @@ $conn = new mysqli("localhost:3306", 'root','','tournament');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-  if (!isset($_SESSION["user"])) {
+  if (!isset($_SESSION["userid"])) {
     header("Location: admin.php", TRUE, 301);
     exit();
   }
@@ -61,22 +61,22 @@ float: left;
 </head>
 <body>
 <header>
-​<img src="tour.png" width="100px" height="80px">
 
-<a href ="logout1.php"> <input type="button" value="Logout" style="float:right;width: 200px;"></a></h1>
+
 </header>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Admin Access</a>
+    <img src="tour.png" width="150px" height="50px">
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="adminhome.php">Admin Home Page</a></li>
+    <li  class="active"><a href="info.php">All Tournaments</a></li>
       <li><a href="createtournament.php">Create Tournament</a></li>
-      <li  class="active"><a href="info.php">Info</a></li>
+      
       <li><a href="reporttour.php">Reports</a></li>
 	  <li><a href="resulttour.php">Results</a></li>
     </ul>
+    <input type="button" value="Logout" style="float:right;width: 100px;margin-top:10px;margin-bottom:10px;background-color:red;border-radius:5px;border:None;color:white;" onclick="window.location='logout2.php';"></h1>
   </div>
 </nav>
 
@@ -101,7 +101,8 @@ if($n>0){
       <p class="card-text">Status : <?php echo $row['status'];?></p>
       <p class="card-text">MinTeams : <?php echo $row['minteams'];?></p>
       <p class="card-text">Participants per team : <?php echo $row['pperteam'];?></p>
-      <p class="card-text">Team IDs : <?php echo $row['teamids'];?></p>
+      <!--Display Team ids-->
+      <!--<p class="card-text">Team IDs : <?//php echo $row['teamids'];?></p>-->
       <p class="card-text">Time : <?php echo $row['time'];?></p>
 
 
@@ -182,7 +183,48 @@ if($n>0){
                     </div>
                 </div>
             </div>
+            <br>
+
+
+
+
+            <div class="container-box" style="vertical-align: middle;">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<?php echo $row['tid'];?>cancel">Cancel Tournament</button>
+            </div>
+            <!-- Modal -->
+            <div id="myModal<?php echo $row['tid'];?>cancel" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">
+                                Cancel the Tournament
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                          <h3>Are you sure to cancel the tournament??</h3>
+                        <form method="POST" action="removetour.php">
+                                  <input type='submit' value='cancel' name="cancel">
+                                  <input type=hidden name="tid" value= "<?php echo $row['tid'];?>" readonly>
+                                  <input type=hidden name="type" value= "<?php echo $row['type'];?>" readonly>
+                                </form>
+                          
+                            <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Sent your message successfully!</h3> </div>
+                            <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
         </div>
+
+        
+
+        
                               </div>
                               </div>
 <!--Popup form-->

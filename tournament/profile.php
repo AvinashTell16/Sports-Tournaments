@@ -16,6 +16,7 @@ if ($conn->connect_error) {
 <html lang="en">
 <head>
   <title>Player Info</title>
+  <h3 class="liketext">Push Yourselves to compete with others</h3>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -42,22 +43,25 @@ $bloodgrp=$res[7];
 
 
 <header>
-​<img src="tour.png" width="100px" height="80px"><br>
 
-<input type="button" value="Logout" onclick="window.location='logout.php';">
 </header>
-<nav class="navbar navbar-default">
+<div style="padding-top:20px;">
+<nav class="navbar navbar-default" >
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Participant Access</a>
+    <img src="tour.png" width="150px" height="50px">
     </div>
     <ul class="nav navbar-nav">
+      <li style="padding-left:20px;"><a href="yourtour.php">Home Page</a></li>
       <li><a href="upcomingtour.php">Upcoming Tournaments</a></li>
       <li class="active"><a href="profile.php">Profile</a></li>
-      <li><a href="yourtour.php">Modify</a></li>
     </ul>
+    <input type="button" value="Logout" style="float:right;width: 100px;margin-top:10px;margin-bottom:10px;background-color:red;border-radius:5px;border:None;color:white;" onclick="window.location='logout3.php';"></h1>
   </div>
 </nav>
+</div>
+
+
 <div class="container">
   <div class="card" style="width:400px;">
     <div class="card-body">

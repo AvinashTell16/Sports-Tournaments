@@ -4,6 +4,10 @@ $conn = new mysqli("localhost:3306", 'root','','tournament');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
+  if(isset($_SESSION['userid'])){
+    header("Location: info.php", TRUE, 301);
+    exit();
+  }
 
 ?>
 
@@ -23,6 +27,7 @@ if ($conn->connect_error) {
 <body>
 <div>
   <?php
+  //echo $_SESSION['userid'];
   if(isset($_POST['submit'])){
     $email=$_POST['email'];
     $pass=$_POST['password'];
@@ -30,11 +35,11 @@ if ($conn->connect_error) {
     $data = mysqli_query($conn,$sql);
     if(mysqli_num_rows($data)==1){
       //echo "<script>alert('Logged in succesfully')</script>";
-      $_SESSION['user']=$email;
-      echo $_SESSION['user'];
+      $_SESSION['userid']=$email;
+      //echo $_SESSION['userid'];
       ?>
       <script type="text/javascript">
-      window.location = 'adminhome.php';
+      window.location = 'info.php';
       </script>      
         <?php
     }
@@ -57,7 +62,9 @@ if ($conn->connect_error) {
           <input type="submit" value="SIGNIN" name="submit">
         </form>
         
-        <p>User? <a href="registration.php"> Signup Here!</a>
+        <p>New User? <a href="registration.php"> Signup Here!</a>
+        <p>Already have an User account? <a href="login.php"> Login Here!</a>
+        </p>
         </p>
       </div>
     </div>

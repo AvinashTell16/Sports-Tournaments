@@ -1,3 +1,15 @@
+<?php
+session_start();
+$conn = new mysqli("localhost:3306", 'root','','tournament');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+  if (!isset($_SESSION["userid"])) {
+    header("Location: admin.php", TRUE, 301);
+    exit();
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +23,10 @@
 <body>
 <header>
 ​<img src="tour.png" width="100px" height="80px">
+
+
 <h3 class="liketext">Once you get to the tournament, it's like, win or go home.</h3>
 
-<a href ="index.html"> <input type="button" value="Logout" style="float:right;width: 200px;"></a></h1>
 </header>
 <nav class="navbar navbar-default">
   <div class="container-fluid">

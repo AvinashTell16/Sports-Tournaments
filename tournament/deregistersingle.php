@@ -21,7 +21,7 @@ if($data){
     ?>
     <script type="text/javascript">
       alert("Deregistered Successfully");  
-      window.location = 'partihome.php';
+      window.location = 'upcomingtour.php';
       </script>
     <?php
 }

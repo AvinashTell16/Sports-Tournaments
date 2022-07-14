@@ -13,6 +13,7 @@ if ($conn->connect_error) {
 <html lang="en">
 <head>
   <title>Modify Your Tounaments</title>
+  <h3 class="liketext">Push Yourselves to compete with others</h3>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -60,22 +61,25 @@ float: left;
 </head>
 <body>
 <header>
-​<img src="tour.png" width="100px" height="80px">
 
-<a href ="logout1.php"> <input type="button" value="Logout" style="float:right;width: 200px;"></a></h1>
+
 </header>
+<div style="padding-top:20px;">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="partihome.php">Participant Access</a>
+    <img src="tour.png" width="150px" height="50px">
     </div>
     <ul class="nav navbar-nav">
+      <li class="active" style="padding-left:20px;"><a href="yourtour.php">Home Page</a></li>
       <li><a href="upcomingtour.php">Upcoming Tournaments</a></li>
       <li><a href="profile.php">Profile</a></li>
-      <li class="active"><a href="yourtour.php">Modify</a></li>
     </ul>
+    <input type="button" value="Logout" style="float:right;width: 100px;margin-top:10px;margin-bottom:10px;background-color:red;border-radius:5px;border:None;color:white;" onclick="window.location='logout3.php';"></h1>
+
   </div>
 </nav>
+</div>
 
 <?php
 
@@ -226,6 +230,38 @@ if($n>0){
                                 </form>
                                 <?php
                             }
+                            else{
+                              $sql3="SELECT participants.teamid,team.captain FROM participants INNER JOIN team ON participants.teamid=team.teamid WHERE pid='".$_SESSION['user']."'";
+                              $data3=mysqli_query($conn,$sql3);
+                              $row3=$data3->fetch_assoc();
+                              //echo $row3['teamid'];
+                              //echo $row3['captain'];
+                              if($_SESSION['user']==$row3['captain']){
+                                echo "You are the captain of the team !! You can deregister the team from the tournament";
+                                ?>
+                                <form method="POST">
+                                  <input type='submit' value='deregister' name="deregister">
+                          
+                                </form>
+                                <?php
+                                  if (isset($_POST["deregister"])){
+                                    //echo $row['tid'];
+                                    //echo $row3['teamid'];
+                                    $sql4="DELETE FROM tourteams WHERE tid='".$row['tid']."' AND teamid='".$row3['teamid']."' ";
+                                    $data4=mysqli_query($conn,$sql4);
+                                    if($data4){
+                                      echo "<script>alert('Deregistered');</script>";
+                                      echo "<script type='text/javascript'>window.location = 'yourtour.php';</script> ";
+                                    }
+                                    
+                                  }
+                              }
+                              else{
+                                echo "You are not the captain of the team !! Cannot degister from the tournament";
+                                
+                              }
+
+                            }
                             ?>
                             <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Sent your message successfully!</h3> </div>
                             <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
@@ -241,6 +277,8 @@ if($n>0){
     <?php
   }
 }
+
+
 ?>
 
 

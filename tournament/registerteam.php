@@ -18,6 +18,7 @@ if ($conn->connect_error) {
   $data1=mysqli_query($conn,$sql1);
   if(mysqli_num_rows($data1)==1){
     echo "<script>alert('Team Already Exists')</script>";
+    echo "<script type='text/javascript'>window.location = 'upcomingtour.php';</script>";
   }
 
   else{

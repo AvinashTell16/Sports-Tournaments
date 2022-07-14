@@ -4,7 +4,7 @@ $conn = new mysqli("localhost:3306", 'root','','tournament');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-  if (!isset($_SESSION["user"])) {
+  if (!isset($_SESSION["userid"])) {
     header("Location: admin.php", TRUE, 301);
     exit();
   }
@@ -52,7 +52,7 @@ $data = mysqli_query($conn,$sql);
 if ($data) {	
 echo '<script type="text/javascript">'; 
 echo 'alert("Event Added Sucessfully");'; 
-echo 'window.location.href = "adminhome.php";';
+echo 'window.location.href = "info.php";';
 echo '</script>';  
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;

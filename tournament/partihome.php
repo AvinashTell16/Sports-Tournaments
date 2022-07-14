@@ -8,7 +8,7 @@ if ($conn->connect_error) {
     header("Location: admin.php", TRUE, 301);
     exit();
   }
-  
+
 ?>
 
 <!DOCTYPE html>
@@ -29,8 +29,7 @@ ga('send', 'pageview');
 <body>
 <header>
 <img src="tour.png" width="100px" height="80px">
-
-<a href ="index.html"> <input type="button" value="Logout" style="float:right;width: 200px;" onclick="window.location='logout.php';"></a></h1>
+ <input type="button" value="Logout" style="float:right;width: 200px;" onclick="window.location='logout.php';"></h1>
 </header>
 
 <nav class="navbar navbar-default">
