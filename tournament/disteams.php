@@ -9,6 +9,8 @@ if ($conn->connect_error) {
     exit();
   }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -138,106 +140,22 @@ th, td {
 
 </head>
 <body>
-  
-<?php
-
-$tid=$_GET['s'];
-
-$sql="SELECT * FROM tourevents where tid='".$tid."'";
-$data = mysqli_query($conn,$sql);
-$n=mysqli_num_rows($data);
-$row=$data->fetch_assoc();
-?>
-
-<?php
-if($row['type']=='single'){
+  <?php //Show disqualified teams
+  $tid=$_GET['tid'];
+  $sql="SELECT tname FROM tourevents WHERE tid='".$tid."'";
+  $data=mysqli_query($conn,$sql);
+  $row=$data->fetch_assoc();
   ?>
   <div class="header">
-  <a class="logo"><?php echo $row['tname'];?></a>
+  <a class="logo"><?php echo $row['tname'];?> Disqualified Teams</a>
   <div class="header-right">
   <a class="active" href="info.php" >All tournaments</a>
-  <?php
-  echo "<a class='active' href='disparti.php?tid=".$tid."' style='margin-left:60px;'>Disqualified People</a>";
-  ?>
-    <a class="active" href="logout2.php"style="margin-left:60px;">Logout</a>
-
-  </div>
-</div>
-<?php
-  //disqualify of single participants
-    $sql2="SELECT * FROM tourparti where tid='".$tid."' AND disqualify=0";
-    $data2 = mysqli_query($conn,$sql2);
-    $n=mysqli_num_rows($data2);
-//echo $tid;
-if($n>0){
-  ?>
-      
-        <!--<h4 class="card-title">Name of the Tournament : <?php //echo $row['tname'];?></h4>-->
-        <div style="overflow-x:auto;">
-         <table>
-            <tr style="border-bottom:1pt solid blue;">
-               <th>Participant Name</th>
-               <th>Age</th>
-               <th>Email</th>
-               <th>Address</th>
-               <th>Blood Group</th>
-               <th>Disqualify</th>
-               
-            </tr>
-            
-      <?php
-    while($row2=$data2->fetch_assoc()){
-      $sql3="SELECT * FROM participants where pid='".$row2['pid']."'";
-      $data3 = mysqli_query($conn,$sql3);
-      $row3=$data3->fetch_assoc();
-      ?>
-      <tr>
-               <td><?php echo $row3['pname']?></td>
-               <td><?php echo $row3['age']?></td>
-               <td><?php echo $row3['email']?></td>
-               <td><?php echo $row3['address']?></td>
-               <td><?php echo $row3['bloodgroup']?></td>
-               <form method="POST" action="#">
-                <input type=hidden name="tid" value=<?php echo $tid;?>>
-                <input type=hidden name="pid" value=<?php echo $row2['pid'];?>>
-               <td><input type="submit" name="partidis" style="color:white;background-color:red;border-radius:10%;" value="Disqualify"></td>
-              </form>
-               <td></td>
-      </tr>
-      <?php
-      
-    }
-    if(isset($_POST['partidis'])){
-      $sql5="UPDATE tourparti SET disqualify=1 WHERE tid='".$_POST['tid']."' AND pid='".$_POST['pid']."'";
-      $data5=mysqli_query($conn,$sql5);
-      if($data5){
-        echo "<script>alert('Participant is disqualified succesfully')</script>";
-        echo '<script type="text/javascript">window.location = "info.php";</script> ';
-      }
-    }
-    ?>
-    </table>
-    <?php
-  }
-}
-//Disqualification of teams
-else{
-  ?>
-  <div class="header">
-  <a class="logo"><?php echo $row['tname'];?></a>
-  <div class="header-right">
-  <a class="active" href="info.php" >All tournaments</a>
-  <?php
-  echo "<a class='active' href='disteams.php?tid=".$tid."' style='margin-left:60px;'>Disqualified Teams</a>";
-  echo "<a class='active' href='generate.php?tid=".$tid."' style='margin-left:60px;'>Generate Matches</a>";
-  ?>
-<!--<button class="active" style="margin-left:60px;">Generate matches</button>-->
     <a class="active" href="logout2.php" style="margin-left:60px;">Logout</a>
 
   </div>
 </div>
 <?php
-$sql2="SELECT * FROM tourteams where tid='".$tid."' AND disqualifyteam=0";
+$sql2="SELECT * FROM tourteams where tid='".$tid."' AND disqualifyteam=1";
 $data2 = mysqli_query($conn,$sql2);
 $n=mysqli_num_rows($data2);
 if($n>0){
@@ -261,7 +179,7 @@ if($n>0){
       <form method="POST" action="#">
       <input type=hidden name="tid" value=<?php echo $tid;?>>
       <input type=hidden name="teamid" value=<?php echo $row3['teamid'];?>>
-      <input type="submit" name="teamdis" style="color:white;background-color:red;border-radius:10%;" value="Disqualify">
+      <input type="submit" name="teamqualify" style="color:white;background-color:green;border-radius:10%;" value="Qualify">
       </form>
       <!--<button style="float:right;">Delete Team</button>-->
         </div><br><hr>
@@ -288,12 +206,12 @@ if($n>0){
                 }
             }
         }
-        //disqualify team
-        if(isset($_POST['teamdis'])){
-          $sql6="UPDATE tourteams SET disqualifyteam=1 WHERE tid='".$_POST['tid']."' AND teamid='".$_POST['teamid']."'";
+        //qualify team
+        if(isset($_POST['teamqualify'])){
+          $sql6="UPDATE tourteams SET disqualifyteam=0 WHERE tid='".$_POST['tid']."' AND teamid='".$row3['teamid']."'";
           $data6=mysqli_query($conn,$sql6);
           if($data6){
-            echo "<script>alert('Team is disqualified succesfully')</script>";
+            echo "<script>alert('Team is Qualified succesfully')</script>";
             echo '<script type="text/javascript">window.location = "info.php";</script> ';
           }
         }
@@ -310,8 +228,9 @@ if($n>0){
 
   }
 }
-}
 
 ?>
+
+
 </body>
 </html> 

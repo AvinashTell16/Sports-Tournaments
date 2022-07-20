@@ -13,8 +13,7 @@ if ($conn->connect_error) {
 <?php
 $tid=$_POST['tid'];
 $teamid=$_POST['teamid'];
-$captainpid=$_POST['captainpid'];
-$sql="INSERT INTO tourteams (tid,teamid,captainpid) VALUES('".$tid."','".$teamid."','".$captainpid."')";
+$sql="INSERT INTO tourteams (tid,teamid,disqualifyteam) VALUES('".$tid."','".$teamid."',0)";
 $data=mysqli_query($conn,$sql);
 if($data){
     echo "<script>alert('Team is registered for the tournament succesfully')</script>";

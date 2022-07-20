@@ -33,7 +33,7 @@ if ($conn->connect_error) {
     $data2=mysqli_query($conn,$sql2);
     $row2=$data2->fetch_assoc();
     $teamid=$row2['teamid'];
-    $sql3="INSERT INTO tourteams (tid,teamid,captainpid,disqualifyteam) VALUES('".$tid."','".$teamid."','".$p."',0)";
+    $sql3="INSERT INTO tourteams (tid,teamid,disqualifyteam) VALUES('".$tid."','".$teamid."',0)";
     $data3=mysqli_query($conn,$sql3);
     $sql5="UPDATE participants SET teamid = '".$teamid."' WHERE pid = '".$p."'";
     $data5=mysqli_query($conn,$sql5);
