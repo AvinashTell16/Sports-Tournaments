@@ -65,7 +65,7 @@ if ($conn->connect_error) {
                 <input class="form__input" type="password" placeholder="Password">
                 -->
                 <?php
-                $sql2="SELECT teamid from tourteams WHERE tid='".$_POST['tid']."'";
+                $sql2="SELECT teamid from tourteams WHERE tid='".$_POST['tid']."' AND disqualifyteam=0";
                 $data2=mysqli_query($conn,$sql2);
                 $n2=mysqli_num_rows($data2);
                 if($n2>0){
@@ -149,7 +149,7 @@ if ($conn->connect_error) {
         <div class="addall">
         <h3>Review all the team members and Register for the tournament</h3>
         <?php
-            $sql5="SELECT DISTINCT participants.pid,participants.pname FROM teamparti INNER JOIN participants ON teamparti.teamid=participants.teamid WHERE teamparti.teamid='".$teamid."'";
+            $sql5="SELECT pid,pname FROM participants WHERE teamid='".$teamid."'";
             $data5=mysqli_query($conn,$sql5);
             $n=mysqli_num_rows($data5);
             ?>

@@ -5,7 +5,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
   if (!isset($_SESSION["userid"])) {
-    header("Location: admin.php", TRUE, 301);
+    header("Location: login.php", TRUE, 301);
     exit();
   }
 ?>
@@ -73,8 +73,8 @@ float: left;
     <li  class="active"><a href="info.php">All Tournaments</a></li>
       <li><a href="createtournament.php">Create Tournament</a></li>
       
-      <li><a href="reporttour.php">Reports</a></li>
-	  <li><a href="resulttour.php">Results</a></li>
+      <li><a href="#">Reports</a></li>
+	  <li><a href="#">Results</a></li>
     </ul>
     <input type="button" value="Logout" style="float:right;width: 100px;margin-top:10px;margin-bottom:10px;background-color:red;border-radius:5px;border:None;color:white;" onclick="window.location='logout2.php';"></h1>
   </div>
@@ -91,9 +91,16 @@ if($n>0){
     <div class="card1">
       <div class="container1">
     <div class="container">
-  <div class="card" style="width:400px;">
+  <div class="card" style="width:400px;" id="myButton<?php echo $row['tid'];?>">
+  
 
-    <div class="card-body">
+    <div class="card-body" >
+    <script type="text/javascript">
+    document.getElementById("myButton<?php echo $row['tid'];?>").onclick = function () {
+      var tid = <?php echo $row['tid']; ?>;
+        location.href ="details.php?s="+tid;
+    };
+</script>
       <h4 class="card-title">Name of the Tournament : <?php echo $row['tname'];?></h4>
       <p class="card-text">Type : <?php echo $row['type'];?></p>
       <p class="card-text">Start date : <?php echo $row['start_date'];?></p>
@@ -209,6 +216,7 @@ if($n>0){
                                   <input type=hidden name="tid" value= "<?php echo $row['tid'];?>" readonly>
                                   <input type=hidden name="type" value= "<?php echo $row['type'];?>" readonly>
                                 </form>
+                                
                           
                             <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Sent your message successfully!</h3> </div>
                             <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>

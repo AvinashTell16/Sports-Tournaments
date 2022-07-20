@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 ?>
 
 <?php
-    $sql7="INSERT INTO tourparti (tid,pid) VALUES('".$_POST['tid']."' ,'".$_POST['pid']."')";
+    $sql7="INSERT INTO tourparti (tid,pid,disqualify) VALUES('".$_POST['tid']."' ,'".$_POST['pid']."',0)";
     $data7= mysqli_query($conn,$sql7);
     if($data7){
       echo '<script type="text/javascript">'; 

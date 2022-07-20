@@ -4,4 +4,5 @@ session_destroy();
 session_unset();
 
 header("Location: login.php",TRUE,301);
+//participant logout
 ?>

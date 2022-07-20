@@ -6,7 +6,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
   if (!isset($_SESSION["userid"])) {
-    header("Location: admin.php", TRUE, 301);
+    header("Location: login.php", TRUE, 301);
     exit();
   }
 ?>

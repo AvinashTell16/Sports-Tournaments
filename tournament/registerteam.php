@@ -33,18 +33,17 @@ if ($conn->connect_error) {
     $data2=mysqli_query($conn,$sql2);
     $row2=$data2->fetch_assoc();
     $teamid=$row2['teamid'];
-    //$sql2="INSERT INTO tourevents (tname,count,captain,wins) VALUES('".$t."','".$c."','".$p."',0)";
-    $sql3="INSERT INTO tourteams (tid,teamid,captainpid) VALUES('".$tid."','".$teamid."','".$p."')";
+    $sql3="INSERT INTO tourteams (tid,teamid,captainpid,disqualifyteam) VALUES('".$tid."','".$teamid."','".$p."',0)";
     $data3=mysqli_query($conn,$sql3);
     $sql5="UPDATE participants SET teamid = '".$teamid."' WHERE pid = '".$p."'";
     $data5=mysqli_query($conn,$sql5);
     if($data3 && $data5){
         echo "<script>alert('Registered to Tournament Successfully!')</script>";
-        $sql4="INSERT INTO teamparti (teamid,pid,iscaptain) VALUES('".$teamid."','".$p."',1)";
-        $data4=mysqli_query($conn,$sql4);
-        if($data4){
-            echo "<script>alert('Team added to teamparti successfully!')</script>";
-        }
+        //$sql4="INSERT INTO teamparti (teamid,pid,iscaptain) VALUES('".$teamid."','".$p."',1)";
+        //$data4=mysqli_query($conn,$sql4);
+        //if($data4){
+         //   echo "<script>alert('Team added to teamparti successfully!')</script>";
+        //}
     }
     ?>
     <script type="text/javascript">

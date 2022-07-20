@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Modify Your Tounaments</title>
+  <title>See Your Tounaments</title>
   <h3 class="liketext">Push Yourselves to compete with others</h3>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -121,7 +121,24 @@ if($n>0){
     <!--Popup form-->
     <div class="container">
             <div class="container-box">
+              <?php
+              if($row1['disqualify']==1){
+                ?>
+                <button type="button" class="btn btn-info btn-lg" disabled>Disqualified</button>
+                <?php
+              }
+              else if($row['status']=='Active')
+              {
+              ?>
                 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<?php echo $row['tid'];?>">Deregister</button>
+                <?php
+              }
+              else{
+                ?>
+                <button type="button" class="btn btn-info btn-lg" disabled>Deregister</button>
+                <?php
+              }
+                ?>
             </div>
             <!-- Modal -->
             <div id="myModal<?php echo $row['tid'];?>" class="modal fade" role="dialog">
@@ -204,7 +221,23 @@ if($n>0){
     <!--Popup form-->
     <div class="container">
             <div class="container-box">
+              <?php
+              if($row1['disqualifyteam']==1){
+                ?>
+                <button type="button" class="btn btn-info btn-lg" disabled>Disqualified</button>
+                <?php
+              }
+              else if($row['status']=='Active'){
+              ?>
                 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<?php echo $row['tid'];?>">Deregister</button>
+                <?php
+              }
+              else{
+              ?>
+              <button type="button" class="btn btn-info btn-lg" disabled>Deregister</button>
+              <?php
+              }
+              ?>
             </div>
             <!-- Modal -->
             <div id="myModal<?php echo $row['tid'];?>" class="modal fade" role="dialog">

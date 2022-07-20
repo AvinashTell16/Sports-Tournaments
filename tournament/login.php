@@ -4,7 +4,11 @@ $conn = new mysqli("localhost:3306", 'root','','tournament');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-  if(isset($_SESSION['user'])){
+  if(isset($_SESSION['userid'])){
+    header("Location:info.php", TRUE, 301);
+    exit();
+  }
+  else if(isset($_SESSION['user'])){
     header("Location: yourtour.php", TRUE, 301);
     exit();
   }
@@ -29,11 +33,17 @@ if(isset($_POST['submit'])){
   $email=$_POST['email'];
   $pass=$_POST['password'];
   //$pass1=password_hash($pass,PASSWORD_DEFAULT);
-  $sql="SELECT * FROM participants WHERE email='".$email."' AND  password='".$pass."' limit 1";
-
-  $data = mysqli_query($conn,$sql);
-  if(mysqli_num_rows($data)==1){
-
+  if($email=='admin@gmail.com' && $pass=='abcdefg'){
+    echo "<script>alert('Admin Logged in succesfully')</script>";
+    $_SESSION['userid']=$email;
+    echo '<script type="text/javascript">
+    window.location = "info.php";
+    </script>';
+  }
+  else{
+    $sql="SELECT * FROM participants WHERE email='".$email."' AND  password='".$pass."' limit 1";
+    $data = mysqli_query($conn,$sql);
+    if(mysqli_num_rows($data)==1){
       echo "<script>alert('Logged in succesfully')</script>";
       $sql="SELECT * FROM participants WHERE email='".$email."' ";
       $data = mysqli_query($conn,$sql);
@@ -41,16 +51,14 @@ if(isset($_POST['submit'])){
       $n=$res[0];
       $_SESSION['user']=$n;
       ?>
-    
       <script type="text/javascript">
-      window.location = 'upcomingtour.php';
+      window.location = 'yourtour.php';
       </script>      
         <?php
-      
-}
-else{
-    
+  }
+  else{  
     echo "<script>alert('Email or password is wrong')</script>";
+  }
 }
 }
 ?>
@@ -58,7 +66,7 @@ else{
 <?php //echo $_SESSION['user'];?>
   <div class="main-w3layouts wrapper">
     <h1>Sports Tournament</h1>
-    <h1>Participants Login Form</h1>
+    <h1>Login Form</h1>
     <div class="main-agileinfo">
       <div class="agileits-top">
         <form action="#" method="post">
@@ -69,8 +77,8 @@ else{
         </form>
         <p>Don't have an account? <a href="registration.php"> Signup Here!</a>
         </p>
-        <p>Admin? <a href="admin.php"> Signin Here!</a>
-        </p>
+        <!--<p>Admin? <a href="admin.php"> Signin Here!</a>
+        </p>-->
       </div>
     </div>
     

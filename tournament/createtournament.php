@@ -5,7 +5,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
 if (!isset($_SESSION["userid"])) {
-    header("Location: admin.php", TRUE, 301);
+    header("Location: login.php", TRUE, 301);
     exit();
   }
 ?>
@@ -44,8 +44,8 @@ ga('send', 'pageview');
     <li><a href="info.php">All Tournaments</a></li>
 	  <li  class="active"><a href="createtournament.php">Create Tournament</a></li>
       
-      <li><a href="reporttour.php">Reports</a></li>
-	  <li><a href="resulttour.php">Results</a></li>
+      <li><a href="#">Reports</a></li>
+	  <li><a href="#">Results</a></li>
     </ul>
     <input type="button" value="Logout" style="float:right;width: 100px;margin-top:10px;margin-bottom:10px;background-color:red;border-radius:5px;border:None;color:white;" onclick="window.location='logout2.php';"></h1>
   </div>

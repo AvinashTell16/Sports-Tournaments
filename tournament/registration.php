@@ -5,7 +5,10 @@ $conn = new mysqli("localhost:3306", 'root','','tournament');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
-  
+if(isset($_SESSION['user'])){
+  header("Location: yourtour.php", TRUE, 301);
+    exit();
+}
 ?>
 
 
@@ -56,7 +59,6 @@ if ($conn->connect_error) {
 if(isset($_POST['submit'])){
   $pname=$_POST['name'];
   $pass=$_POST['password'];
-  $wins="0";
   $age=$_POST['age'];
   $email=$_POST['email'];
   $address=$_POST['address'];
@@ -79,7 +81,7 @@ if(isset($_POST['submit'])){
  }
  if($f1==0 && $f2==0){
  
-  $sql="INSERT INTO participants (pname,wins,age,email,password,address,bloodgroup) values('$pname','$wins','$age','$email','$pass','$address','$bgrp')";
+  $sql="INSERT INTO participants (pname,age,email,password,address,bloodgroup) values('$pname','$age','$email','$pass','$address','$bgrp')";
   $data = mysqli_query($conn,$sql);
   if($data){
       echo "<script>alert('User registered succesfully')</script>";
@@ -133,8 +135,8 @@ else{
         </form>
         <p>Already have an account? <a href="login.php"> Login Here!</a>
         </p>
-        <p>Admin? <a href="login.php"> Signin Here!</a>
-        </p>
+        <!--<p>Admin? <a href="login.php"> Signin Here!</a>
+        </p>-->
       </div>
     </div>
     

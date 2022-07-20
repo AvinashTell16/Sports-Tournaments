@@ -20,11 +20,11 @@ if ($conn->connect_error) {
   if($data5){
     echo "<script>alert('Teamid is added to participant succesfully')</script>";
   }
-  $sql6="INSERT INTO teamparti (teamid,pid,iscaptain) VALUES('".$teamid."','".$p."',0)";
-  $data6=mysqli_query($conn,$sql6);
-  if($data6){
-    echo "<script>alert('Participant is added to the team succesfully')</script>";
-  }
+  //$sql6="INSERT INTO teamparti (teamid,pid,iscaptain) VALUES('".$teamid."','".$p."',0)";
+  //$data6=mysqli_query($conn,$sql6);
+  //if($data6){
+    //echo "<script>alert('Participant is added to the team succesfully')</script>";
+  //}
   $sql7="SELECT * FROM team WHERE teamid='".$teamid."'";
   $data7=mysqli_query($conn,$sql7);
   if($data7){

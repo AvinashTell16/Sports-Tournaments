@@ -108,7 +108,7 @@ if($n>0){
     }
     else{
       //Display only active tournaments
-      if($row['status']=="Active"){
+      //if($row['status']=="Active"){
     ?>
     <div class="card1">
       <div class="container1">
@@ -121,7 +121,7 @@ if($n>0){
       <p class="card-text">Start date : <?php echo $row['start_date'];?></p>
       <p class="card-text">End date : <?php echo $row['end_date'];?></p>
       <p class="card-text">Status : <?php echo $row['status'];?></p>
-      <p class="card-text">MinTeams : <?php echo $row['minteams'];?></p>
+      <!--<p class="card-text">MinTeams : <?php //echo $row['minteams'];?></p>-->
       <p class="card-text">Participants per team : <?php echo $row['pperteam'];?></p>
       <!--<p class="card-text">Team IDs : <?php //echo $row['teamids'];?></p>-->
       <p class="card-text">Time : <?php echo $row['time'];?></p>
@@ -137,7 +137,18 @@ if($n>0){
     <!--Popup form-->
     <div class="container">
             <div class="container-box">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<?php echo $row['tid'];?>">Register</button>
+              <?php
+              if($row['status']!='Active'){
+                ?>
+                <button type="button" class="btn btn-info btn-lg" disabled>Register</button>
+                <?php
+              }
+              else{
+              ?>
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal<?php echo $row['tid'];?>" >Register</button>
+                <?php
+              }
+              ?>
             </div>
             <!-- Modal -->
             <div id="myModal<?php echo $row['tid'];?>" class="modal fade" role="dialog">
@@ -164,6 +175,7 @@ if($n>0){
                           <form method="POST" action="registertour.php">
                           <input type=hidden name="tid" value= "<?php echo $row['tid'];?>" readonly>
                           <input type=hidden name="pid" value= "<?php echo $k;?>" readonly>
+                          
                           <input type='submit' name='register' action="registertour.php">
                         </form>
                           <?php
@@ -225,7 +237,7 @@ if($n>0){
                               </div>
 <!--Popup form-->
     <?php
-      }
+      //}
       //End of only display active tournaments
     }
   }
